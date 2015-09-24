@@ -11,6 +11,7 @@ import java.util.*;
 public class SalesChannelResourceBuilder {
 
     private String name;
+    private String code;
     private String description;
     private SalesChannelType channelType;
 
@@ -27,6 +28,10 @@ public class SalesChannelResourceBuilder {
         return this;
     }
 
+    public SalesChannelResourceBuilder withCode(String code){
+        this.code = code;
+        return this;
+    }
     public SalesChannelResourceBuilder withDescription(String description){
         this.description = description;
         return this;
@@ -42,6 +47,7 @@ public class SalesChannelResourceBuilder {
     public CreateSalesChannelRequest build(){
         CreateSalesChannelRequest salesChannelRequest = new CreateSalesChannelRequest();
         salesChannelRequest.setName(name);
+        salesChannelRequest.setCode(code);
         salesChannelRequest.setDescription(description);
         salesChannelRequest.setChannelType(channelType);
         return salesChannelRequest;

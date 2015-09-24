@@ -15,7 +15,28 @@ public class SalesChannelResourceFixture {
     public static CreateSalesChannelRequest standardSalesChannel(){
         CreateSalesChannelRequest salesChannelRequest = SalesChannelResourceBuilder.asSalesChannel()
                 .withName("Catalogue3")
+                .withCode("Code3")
                 .withDescription("The third Catalogue")
+                .withChannelType(SalesChannelType.CATALOGUE)
+                .build();
+        return salesChannelRequest;
+    }
+
+    public static CreateSalesChannelRequest standardSalesChannel2(){
+        CreateSalesChannelRequest salesChannelRequest = SalesChannelResourceBuilder.asSalesChannel()
+                .withName("Catalogue4")
+                .withCode("Code4")
+                .withDescription("The FOurth Catalogue")
+                .withChannelType(SalesChannelType.CATALOGUE)
+                .build();
+        return salesChannelRequest;
+    }
+
+    public static CreateSalesChannelRequest standardSalesChannel5(){
+        CreateSalesChannelRequest salesChannelRequest = SalesChannelResourceBuilder.asSalesChannel()
+                .withName("Catalogue5")
+                .withCode("Code5")
+                .withDescription("The Fifth Catalogue")
                 .withChannelType(SalesChannelType.CATALOGUE)
                 .build();
         return salesChannelRequest;

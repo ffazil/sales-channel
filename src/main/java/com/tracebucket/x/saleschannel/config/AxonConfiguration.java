@@ -26,7 +26,7 @@ import java.util.Arrays;
  * Axon Java Configuration with reasonable defaults like SimpleCommandBus, SimpleEventBus and GenericJpaRepository.
  */
 @Configuration
-@ComponentScan(basePackages = {"com.tracebucket.x.saleschannel.query.handler", "com.tracebucket.x.saleschannel.notification", "com.tracebucket.x.saleschannel.domain.handler"})
+@ComponentScan(basePackages = {"com.tracebucket.x.saleschannel.query.handler", "com.tracebucket.x.saleschannel.notification", "com.tracebucket.x.saleschannel.domain.handler", "com.tracebucket.x.saleschannel.domain.model"})
 public class AxonConfiguration {
 	
 //	@Autowired

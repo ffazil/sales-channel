@@ -6,8 +6,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
+import java.util.List;
+
 public interface SalesChannelEntryRepository extends ElasticsearchRepository<SalesChannelEntry, String> {
-	Page<SalesChannelEntry> findByName(String name,  Pageable pageable);
+	SalesChannelEntry findByName(String name);
+	SalesChannelEntry findByCode(String code);
+	//Page<SalesChannelEntry> findAll(Pageable pageable);
 /*
 	Page<SalesChannelEntry> findByDescription(String description,  Pageable pageable);
 	Page<SalesChannelEntry> findByChannelType(SalesChannelType channelType,  Pageable pageable);

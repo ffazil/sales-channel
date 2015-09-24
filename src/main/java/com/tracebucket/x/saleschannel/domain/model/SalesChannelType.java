@@ -5,7 +5,7 @@ package com.tracebucket.x.saleschannel.domain.model;
  */
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-@JsonFormat(shape = JsonFormat.Shape.OBJECT)
+@JsonFormat(shape = JsonFormat.Shape.STRING)
 public enum SalesChannelType {
     WEB ,
     BRICK_MORTOR,
@@ -13,5 +13,5 @@ public enum SalesChannelType {
     CATALOGUE,
     MOBILE,
     VENDING,
-    SUPPORT_STAFF;
+    SUPPORT_STAFF
 }

@@ -1,11 +1,18 @@
 package com.tracebucket.x.saleschannel.query.handler;
 
-import com.tracebucket.x.saleschannel.domain.event.SalesChannelCreatedEvent;
-import com.tracebucket.x.saleschannel.query.model.SalesChannelEntry;
-import com.tracebucket.x.saleschannel.query.repository.SalesChannelEntryRepository;
+import java.util.HashSet;
+
 import org.axonframework.eventhandling.annotation.EventHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.tracebucket.x.saleschannel.domain.event.SalesChannelAddressAddedEvent;
+import com.tracebucket.x.saleschannel.domain.event.SalesChannelCreatedEvent;
+import com.tracebucket.x.saleschannel.domain.event.SalesChannelDeletedEvent;
+import com.tracebucket.x.saleschannel.domain.event.SalesChannelUpdatedEvent;
+import com.tracebucket.x.saleschannel.query.model.AddressEntry;
+import com.tracebucket.x.saleschannel.query.model.SalesChannelEntry;
+import com.tracebucket.x.saleschannel.query.repository.SalesChannelEntryRepository;
 
 @Component
 public class SalesChannelEntryUpdatingEventHandler {
@@ -19,43 +26,36 @@ public class SalesChannelEntryUpdatingEventHandler {
 	
 	@EventHandler
 	void on(SalesChannelCreatedEvent event) {
-		SalesChannelEntry salesChannel = new SalesChannelEntry(event.getId(), event.getName(), event.getDescription(),event.getChannelType());
+		SalesChannelEntry salesChannel = new SalesChannelEntry(event.getId(), event.getName(), event.getCode(), event.getDescription(),
+												event.getChannelType(), event.getStartTime(), event.getEndTime());
 		salesChannelEntryRepository.save(salesChannel);
 	}
 
-/*
 	@EventHandler
-	void on(TaskCompletedEvent event) {
-        TaskEntry task = taskEntryRepository.findOne(event.getId());
-		task.setCompleted(true);
-		
-		taskEntryRepository.save(task);
+	void on (SalesChannelDeletedEvent event) {
+		SalesChannelEntry salesChannelEntry = salesChannelEntryRepository.findOne(event.getId());
+
+		salesChannelEntryRepository.delete(salesChannelEntry.getId());
+	}
+
+	@EventHandler
+	void on (SalesChannelUpdatedEvent event) {
+		SalesChannelEntry salesChannelEntry = salesChannelEntryRepository.findOne(event.getId());
+		salesChannelEntry.setDescription(event.getDescription());
+		salesChannelEntry.setChannelType(event.getChannelType());
+		salesChannelEntryRepository.save(salesChannelEntry);
+	}
 
 
-	}
-	
 	@EventHandler
-	void on(TaskTitleModifiedEvent event) {
-		TaskEntry task = taskEntryRepository.findOne(event.getId());
-		task.setTitle(event.getTitle());
-		
-		taskEntryRepository.save(task);
+	void on (SalesChannelAddressAddedEvent event) {
+		SalesChannelEntry salesChannelEntry = salesChannelEntryRepository.findOne(event.getSalesChannelId());
+		AddressEntry addressEntry = new AddressEntry(event.getLine1(), event.getLine2(), event.getCity(), event.getState(), event.getCountry(),
+				event.getPincode(), event.getWebsite());
+
+		if(salesChannelEntry.getAddressEntry() == null) salesChannelEntry.setAddressEntry(new HashSet<AddressEntry>());
+		salesChannelEntry.getAddressEntry().add(addressEntry);
+		salesChannelEntryRepository.save(salesChannelEntry);
 	}
-	
-	@EventHandler
-	void on (TaskStarredEvent event) {
-		TaskEntry task = taskEntryRepository.findOne(event.getId());
-		task.setStarred(true);
-		
-		taskEntryRepository.save(task);
-	}
-	
-	@EventHandler
-	void on (TaskUnstarredEvent event) {
-		TaskEntry task = taskEntryRepository.findOne(event.getId());
-		task.setStarred(false);
-		
-		taskEntryRepository.save(task);
-	}
-*/
+
 }

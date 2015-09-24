@@ -12,6 +12,7 @@ import java.util.*;
 public class SalesChannelBuilder {
 
     private String name;
+    private String code;
     private String description;
     private SalesChannelType channelType;
 
@@ -25,6 +26,11 @@ public class SalesChannelBuilder {
 
     public SalesChannelBuilder withName(String name){
         this.name = name;
+        return this;
+    }
+
+    public SalesChannelBuilder withCode(String code){
+        this.code = code;
         return this;
     }
 
@@ -43,6 +49,7 @@ public class SalesChannelBuilder {
     public SalesChannelEntry build(){
         SalesChannelEntry salesChannel = new SalesChannelEntry();
         salesChannel.setName(name);
+        salesChannel.setCode(code);
         salesChannel.setDescription(description);
         salesChannel.setChannelType(channelType);
         return salesChannel;

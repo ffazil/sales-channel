@@ -30,6 +30,7 @@ public class SalesChannelFixture {
     public static SalesChannelEntry standardSalesChannel2(){
         SalesChannelEntry salesChannel = SalesChannelBuilder.asSalesChannel()
                 .withName("CATALOGUE2")
+                .withCode("CODE1")
                 .withDescription("TEST CAT 2")
                 .withChannelType(SalesChannelType.CATALOGUE)
                 .build();
