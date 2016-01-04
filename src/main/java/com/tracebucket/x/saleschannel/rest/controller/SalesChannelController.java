@@ -1,9 +1,6 @@
 package com.tracebucket.x.saleschannel.rest.controller;
 
-import com.tracebucket.x.saleschannel.domain.command.AddSalesChannelAddressCommand;
-import com.tracebucket.x.saleschannel.domain.command.CreateSalesChannelCommand;
-import com.tracebucket.x.saleschannel.domain.command.DeleteSalesChannelCommand;
-import com.tracebucket.x.saleschannel.domain.command.UpdateSalesChannelCommand;
+import com.tracebucket.x.saleschannel.domain.command.*;
 import com.tracebucket.x.saleschannel.query.model.SalesChannelEntry;
 import com.tracebucket.x.saleschannel.query.repository.SalesChannelEntryRepository;
 import org.axonframework.commandhandling.gateway.CommandGateway;
@@ -21,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -51,8 +49,9 @@ public class SalesChannelController {
 
 	@RequestMapping(value = "/saleschannels", method = RequestMethod.GET)
 	public @ResponseBody
-	Page<SalesChannelEntry> findAll( Pageable pageable) {
-		return salesChannelEntryRepository.findAll(pageable);
+	List<SalesChannelEntry> findAll( Pageable pageable) {
+
+		return salesChannelEntryRepository.findAll(pageable).getContent();
 	}
 
 
@@ -99,6 +98,12 @@ public class SalesChannelController {
 	}
 
 
+	@RequestMapping(value = "/saleschannel/contact", method = RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void addSalesChannelContact(@RequestBody @Valid com.tracebucket.x.saleschannel.rest.resource.SalesChannelContactRequest request) {
+		commandGateway.send(new AddSalesChannelContactCommand(request.getSalesChannelId(), request.getName(), request.getPhone(),
+				request.getEmail(), request.getMobile(), request.getFax(), request.getWorkTimeFrom(), request.getWorkTimeTo()));
+	}
 	/*@ExceptionHandler
 	public void handleException(Principal principal, Throwable exception) {
 		messagingTemplate.convertAndSendToUser(principal.getName(), "/queue/errors", exception.getMessage());

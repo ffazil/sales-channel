@@ -2,14 +2,12 @@ package com.tracebucket.x.saleschannel.query.handler;
 
 import java.util.HashSet;
 
+import com.tracebucket.x.saleschannel.domain.event.*;
+import com.tracebucket.x.saleschannel.query.model.ContactEntry;
 import org.axonframework.eventhandling.annotation.EventHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.tracebucket.x.saleschannel.domain.event.SalesChannelAddressAddedEvent;
-import com.tracebucket.x.saleschannel.domain.event.SalesChannelCreatedEvent;
-import com.tracebucket.x.saleschannel.domain.event.SalesChannelDeletedEvent;
-import com.tracebucket.x.saleschannel.domain.event.SalesChannelUpdatedEvent;
 import com.tracebucket.x.saleschannel.query.model.AddressEntry;
 import com.tracebucket.x.saleschannel.query.model.SalesChannelEntry;
 import com.tracebucket.x.saleschannel.query.repository.SalesChannelEntryRepository;
@@ -57,5 +55,17 @@ public class SalesChannelEntryUpdatingEventHandler {
 		salesChannelEntry.getAddressEntry().add(addressEntry);
 		salesChannelEntryRepository.save(salesChannelEntry);
 	}
+
+	@EventHandler
+	void on (SalesChannelContactAddedEvent event) {
+		SalesChannelEntry salesChannelEntry = salesChannelEntryRepository.findOne(event.getSalesChannelId());
+		ContactEntry contactEntry = new ContactEntry(event.getName(), event.getPhone(), event.getEmail(), event.getFax(), event.getMobile(),
+				event.getWorkTimeFrom(), event.getWorkTimeTo());
+
+		if(salesChannelEntry.getContactEntry() == null) salesChannelEntry.setContactEntry(new HashSet<ContactEntry>());
+		salesChannelEntry.getContactEntry().add(contactEntry);
+		salesChannelEntryRepository.save(salesChannelEntry);
+	}
+
 
 }

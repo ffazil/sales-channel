@@ -1,5 +1,7 @@
 package com.tracebucket.x.saleschannel.domain.model;
 
+import java.util.Date;
+
 /**
  * Created by Madhavi on 09-09-2015.
  */
@@ -10,6 +12,9 @@ public class Contact {
     private String email;
     private String mobile;
     private String fax;
+    private Date workTimeFrom;
+    private Date workTimeTo;
+
 
     public String getPhone() {
         return phone;
@@ -50,4 +55,12 @@ public class Contact {
     public void setName(String name) {
         this.name = name;
     }
+
+    public Date getWorkTimeFrom() {  return workTimeFrom;    }
+
+    public void setWorkTimeFrom(Date workTimeFrom) { this.workTimeFrom = workTimeFrom;    }
+
+    public Date getWorkTimeTo() { return workTimeTo;    }
+
+    public void setWorkTimeTo(Date workTimeTo) { this.workTimeTo = workTimeTo;    }
 }

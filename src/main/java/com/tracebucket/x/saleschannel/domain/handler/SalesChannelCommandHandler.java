@@ -1,11 +1,9 @@
 package com.tracebucket.x.saleschannel.domain.handler;
 
-import com.tracebucket.x.saleschannel.domain.command.AddSalesChannelAddressCommand;
-import com.tracebucket.x.saleschannel.domain.command.CreateSalesChannelCommand;
-import com.tracebucket.x.saleschannel.domain.command.DeleteSalesChannelCommand;
-import com.tracebucket.x.saleschannel.domain.command.UpdateSalesChannelCommand;
+import com.tracebucket.x.saleschannel.domain.command.*;
 import com.tracebucket.x.saleschannel.domain.exception.SalesChannelException;
 import com.tracebucket.x.saleschannel.domain.model.Address;
+import com.tracebucket.x.saleschannel.domain.model.Contact;
 import com.tracebucket.x.saleschannel.domain.model.SalesChannel;
 import com.tracebucket.x.saleschannel.query.model.SalesChannelEntry;
 import com.tracebucket.x.saleschannel.query.repository.SalesChannelEntryRepository;
@@ -72,5 +70,21 @@ public class SalesChannelCommandHandler {
         salesChannel.addAddress(address);
 
     }
+
+    @CommandHandler
+    public void addSalesChannelContact(AddSalesChannelContactCommand command){
+        SalesChannel salesChannel = salesChannelRepository.load(command.getSalesChannelid());
+        Contact contact = new Contact();
+        contact.setName(command.getName());
+        contact.setPhone(command.getPhone());
+        contact.setEmail(command.getEmail());
+        contact.setWorkTimeFrom(command.getWorkTimeFrom());
+        contact.setWorkTimeTo(command.getWorkTimeTo());
+        contact.setMobile(command.getMobile());
+        contact.setFax(command.getFax());
+        salesChannel.addContactPerson(contact);
+
+    }
+
 
 }
