@@ -2,7 +2,11 @@ package com.tracebucket.x1.saleschannel.test.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tracebucket.x.saleschannel.query.model.ContactEntry;
 import com.tracebucket.x.saleschannel.query.model.SalesChannels;
+import com.tracebucket.x1.saleschannel.test.fixture.SalesChannelAddressFixture;
+import com.tracebucket.x1.saleschannel.test.fixture.SalesChannelAddressResourceFixture;
+import com.tracebucket.x1.saleschannel.test.fixture.SalesChannelContactResourceFixture;
 import org.dozer.Mapper;
 import com.tracebucket.x.saleschannel.domain.model.SalesChannel;
 import com.tracebucket.x.saleschannel.domain.model.SalesChannelType;
@@ -156,22 +160,23 @@ public class SalesChannelControllerTest {
         log.info("Found : " + objectMapper.writeValueAsString(salesChannelEntry));
 
         //salesChannelEntry.setDescription("THE NEW FIRST CATALOGUE");
-        SalesChannelAddressRequest addressEntry = new SalesChannelAddressRequest();
-        addressEntry.setLine1("LINE1 NEW ADDRESS 1 for 5");
-        addressEntry.setLine2("LINE2 NEw ADDRESS 1 for 5");
-        addressEntry.setCity("NEw ADDRESS CITY5 for 5");
-        addressEntry.setState("New ADDRESS STATE5 for 5");
-        addressEntry.setCountry("ADDRESS COUNTRY5for 5");
-        addressEntry.setPincode("5555-44-5");
-        addressEntry.setWebsite("abc-xyz5.com");
+       /* SalesChannelAddressRequest addressEntry = new SalesChannelAddressRequest();
+        addressEntry.setLine1("LINE1 NEW ADDRESS 1 for 5 aa");
+        addressEntry.setLine2("LINE2 NEw ADDRESS 1 for 5 bb");
+        addressEntry.setCity("NEw ADDRESS CITY5 for 5 cc");
+        addressEntry.setState("New ADDRESS STATE5 for  5  dd");
+        addressEntry.setCountry("ADDRESS COUNTRY5for 5 eee");
+        addressEntry.setPincode("5555-44-5  defd");
+        addressEntry.setWebsite("abc-xyz5.com  dfdf");
+        addressEntry.setSalesChannelId(salesChannelEntry.getId());*/
+        SalesChannelAddressRequest addressEntry = SalesChannelAddressResourceFixture.standardSalesChannelAddress();
         addressEntry.setSalesChannelId(salesChannelEntry.getId());
-
         log.info("Adding address to Sales Channel : " + objectMapper.writeValueAsString(addressEntry.toString()) );
         restTemplate.postForObject(basePath+"/saleschannel/address", addressEntry,SalesChannelAddressRequest.class);
 
     }
 
-    //@Test
+    @Test
     public void testFindAllAddressesForSalesChannel() throws Exception {
         SalesChannelEntry salesChannelEntry ;
         ResponseEntity<SalesChannelEntry> responseEntity = restTemplate.getForEntity(new URI(basePath + "/saleschannel/"+"Catalogue5"),SalesChannelEntry.class);
@@ -197,14 +202,15 @@ public class SalesChannelControllerTest {
         log.info("Found : " + objectMapper.writeValueAsString(salesChannelEntry));
 
         //salesChannelEntry.setDescription("THE NEW FIRST CATALOGUE");
-        SalesChannelContactRequest contactRequest = new SalesChannelContactRequest();
+     /*   SalesChannelContactRequest contactRequest = new SalesChannelContactRequest();
         contactRequest.setName("TESTC1");
         contactRequest.setPhone("1243-122");
         contactRequest.setEmail("abcij@xyx.com");
         contactRequest.setMobile("34-78-123");
         contactRequest.setFax("11-123-1212");
         contactRequest.setWorkTimeFrom(Date.from(Instant.now()));
-        contactRequest.setWorkTimeTo(Date.from(Instant.now().plusSeconds(300L)));
+        contactRequest.setWorkTimeTo(Date.from(Instant.now().plusSeconds(300L)));*/
+        SalesChannelContactRequest contactRequest = SalesChannelContactResourceFixture.standardSalesChannelContact();
         contactRequest.setSalesChannelId(salesChannelEntry.getId());
 
 
@@ -213,18 +219,22 @@ public class SalesChannelControllerTest {
 
     }
 
+    @Test
+    public void testFindAllContactsForSalesChannel() throws Exception {
+        SalesChannelEntry salesChannelEntry ;
+        ResponseEntity<SalesChannelEntry> responseEntity = restTemplate.getForEntity(new URI(basePath + "/saleschannel/"+"Catalogue5"),SalesChannelEntry.class);
+        Assert.assertNotNull(responseEntity);
+        Assert.assertNotNull( salesChannelEntry = responseEntity.getBody());
+        Assert.assertNotNull(salesChannelEntry.getId());
+        log.info("Found : " + objectMapper.writeValueAsString(salesChannelEntry));
+        int counter = 1;
+        for(ContactEntry contactEntries : salesChannelEntry.getContactEntry())
+        {
+            log.info("Contact : " +contactEntries);
+        }
+    }
 
     @After
     public void tearDown() throws Exception{
-       /* if(organization != null && organization.getUid() != null) {
-            ResponseEntity<Boolean> responseEntity = restTemplate.exchange(basePath + "/organization/" + organization.getUid(), HttpMethod.DELETE, AccessTokenRequestBuilder.build(accessToken), Boolean.class);
-            Assert.assertNotNull(responseEntity);
-            Assert.assertFalse(responseEntity.getBody());
-            try {
-                restTemplate.exchange(basePath + "/organization/" + organization.getUid(), HttpMethod.GET, AccessTokenRequestBuilder.build(accessToken), DefaultOrganizationResource.class);
-            } catch (HttpClientErrorException httpClientErrorException) {
-                Assert.assertEquals(HttpStatus.NOT_FOUND, httpClientErrorException.getStatusCode());
-            }
-        }*/
     }
 }

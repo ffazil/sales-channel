@@ -5,9 +5,7 @@ import com.tracebucket.x.saleschannel.rest.resource.CreateSalesChannelRequest;
 
 import java.util.*;
 
-/**
- * Created by sadath on 16-Apr-15.
- */
+
 public class SalesChannelResourceBuilder {
 
     private String name;

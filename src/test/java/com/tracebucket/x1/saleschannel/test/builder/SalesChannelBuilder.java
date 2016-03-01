@@ -6,9 +6,7 @@ import com.tracebucket.x.saleschannel.domain.model.SalesChannelType;
 
 import java.util.*;
 
-/**
- * Created by sadath on 25-Nov-14.
- */
+
 public class SalesChannelBuilder {
 
     private String name;

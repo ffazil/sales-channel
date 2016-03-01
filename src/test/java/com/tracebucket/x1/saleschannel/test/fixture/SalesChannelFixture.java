@@ -9,18 +9,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by sadath on 25-Nov-14.
- */
 public class SalesChannelFixture {
 
     public static SalesChannelEntry standardSalesChannel(){
-/*
-        Map<String, EmailType> emails = new HashMap<String, EmailType>();
-        emails.put("sadath@mmp.com", EmailType.PERSONAL);
-        Map<String, PhoneType> phones = new HashMap<String, PhoneType>();
-        phones.put("9898988889888", PhoneType.MOBILE);
-*/
         SalesChannelEntry salesChannel= SalesChannelBuilder.asSalesChannel()
                 .withName("CATALOGUE1")
                 .build();
